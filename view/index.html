@@ -2,8 +2,8 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>傲星网课助手</title>
-    <link rel="shortcut icon" href="https://www.aoaostar.com/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>英华学堂网课助手</title>
     <style>
         * {
             margin: 0;
@@ -27,23 +27,31 @@
             white-space: pre-wrap;
             box-sizing: border-box;
             font-size: 0.9rem;
+            font-family: Consolas, "Courier New", monospace;
+            line-height: 1.5;
         }
     </style>
 </head>
 <body>
-<div id="panel">
-
-</div>
+<div id="panel"></div>
 <script>
-    const func = () => fetch('/ajax').then(async resp => {
-        const element = document.getElementById('panel');
-        element.innerText = await resp.text()
-        element.scrollTop = element.scrollHeight
+    // 只在内容真的变化时才重绘并滚到底部，避免每秒打断用户上翻查看历史日志
+    const element = document.getElementById('panel');
+    let lastText = '';
 
-    }).finally(() => {
-        setTimeout(func, 1000)
-    })
-    func()
+    const poll = () => fetch('/ajax')
+        .then(resp => (resp.ok ? resp.text() : Promise.reject(resp.status)))
+        .then(text => {
+            if (text !== lastText) {
+                lastText = text;
+                element.innerText = text;
+                element.scrollTop = element.scrollHeight;
+            }
+        })
+        .catch(() => {})
+        .finally(() => setTimeout(poll, 1000));
+
+    poll();
 </script>
 </body>
 </html>

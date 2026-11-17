@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "moocpy"
+version = "2.0.0"
+description = "英华学堂网课助手（Python 重构版）"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [{ name = "Pluto" }]
+dependencies = ["requests>=2.31.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0"]
+
+[project.scripts]
+moocpy = "moocpy.bootstrap:main"
+
+[tool.setuptools]
+packages = ["moocpy"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["error::DeprecationWarning:moocpy.*"]

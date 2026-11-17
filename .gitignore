@@ -1,6 +1,20 @@
-.idea
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# 运行时产物
+logs/
 config.json
-*.exe
-logs
-*.bat
-aoaostar_mooc
+
+# 编辑器 / 系统
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
